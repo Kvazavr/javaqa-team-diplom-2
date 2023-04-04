@@ -18,4 +18,17 @@ public class SavingAccountTest {
 
         Assertions.assertEquals(2_000 + 3_000, account.getBalance());
     }
+
+    @Test
+    public void minBalanceShouldBeLessThanMaxBalance() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(
+                    2_000,
+                    11_000,
+                    10_000,
+                    5
+            );
+        });
+
+    }
 }
