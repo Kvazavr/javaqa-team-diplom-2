@@ -93,7 +93,7 @@ public class SavingAccountTest {
     }
 
     @Test
-    public void afterPayBalanceShouldNotLessThanMin () {
+    public void afterPayBalanceShouldNotLessThanMin() {
         SavingAccount account = new SavingAccount(
                 1_000,
                 500,
@@ -105,6 +105,20 @@ public class SavingAccountTest {
 
         Assertions.assertEquals(1_000, account.getBalance());
         Assertions.assertEquals(false, result);
+    }
+
+    @Test
+    public void shouldCountInterestOnBalance() {
+        SavingAccount account = new SavingAccount(
+                234,
+                100,
+                10_000,
+                15
+        );
+
+        int result = account.yearChange();
+
+        Assertions.assertEquals(35, result);
     }
 
 
