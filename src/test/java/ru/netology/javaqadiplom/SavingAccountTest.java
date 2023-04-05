@@ -92,6 +92,21 @@ public class SavingAccountTest {
         });
     }
 
+    @Test
+    public void afterPayBalanceShouldNotLessThanMin () {
+        SavingAccount account = new SavingAccount(
+                1_000,
+                500,
+                2_000,
+                5
+        );
+
+        boolean result = account.pay(600);
+
+        Assertions.assertEquals(1_000, account.getBalance());
+        Assertions.assertEquals(false, result);
+    }
+
 
 }
 
