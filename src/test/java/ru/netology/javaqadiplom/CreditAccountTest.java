@@ -19,7 +19,7 @@ public class CreditAccountTest {
     }
 
     @Test
-    public void balanceShouldDecreaseByAmount() {
+    public void balanceDoNotShouldChangeIfTotalLessThanCreditLimit() {
         CreditAccount account = new CreditAccount(
                 5_000,
                 -5_000,
