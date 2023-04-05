@@ -31,4 +31,67 @@ public class SavingAccountTest {
         });
 
     }
+
+    @Test
+    public void initialBalanceShouldNotBeNegative() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(
+                    -2_000,
+                    1_000,
+                    10_000,
+                    5
+            );
+        });
+    }
+
+    @Test
+    public void minBalanceShouldNotBeNegative() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(
+                    2_000,
+                    -1_000,
+                    10_000,
+                    5
+            );
+        });
+    }
+
+    @Test
+    public void maxBalanceShouldNotBeNegative() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(
+                    2_000,
+                    1_000,
+                    -10_000,
+                    5
+            );
+        });
+    }
+
+    @Test
+    public void initialBalanceShouldBeMoreThanMin() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(
+                    500,
+                    1_000,
+                    10_000,
+                    5
+            );
+        });
+    }
+
+    @Test
+    public void initialBalanceShouldBeLessThanMax() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(
+                    50_000,
+                    1_000,
+                    10_000,
+                    5
+            );
+        });
+    }
+
+
 }
+
