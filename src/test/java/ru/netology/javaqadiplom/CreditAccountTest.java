@@ -79,8 +79,9 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(-1_000, account.getBalance());
     }
+
     @Test
-    public void amountNegativeInPayMethods() {
+    public void amountNegativeInPayMethod() {
         CreditAccount account = new CreditAccount(
                 5_000,
                 5_000,
@@ -92,7 +93,7 @@ public class CreditAccountTest {
         Assertions.assertEquals(5_000, account.getBalance());
     }
 
-       @Test
+    @Test
     public void shouldAddToPositiveBalance() {
         CreditAccount account = new CreditAccount(
                 0,
@@ -119,18 +120,17 @@ public class CreditAccountTest {
     }
 
     @Test
-    public void addAmountNegative() {
+    public void amountNegativeInAddMethod() {
         CreditAccount account = new CreditAccount(
-                5_000,
+                2_000,
                 5_000,
                 15
         );
 
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> account.add(-3_000)
-        );
-    }
+        account.add(-3_000);
 
+        Assertions.assertEquals(2_000, account.getBalance());
+    }
 
     @Test
     public void rateCalculationWithPositiveBalanceShouldBeZero() {
@@ -141,6 +141,17 @@ public class CreditAccountTest {
         );
 
         Assertions.assertEquals(0, account.yearChange());
+    }
+
+    @Test
+    public void rateCalculationRoundsAheadOfTime() {
+        CreditAccount account = new CreditAccount(
+                -242,
+                5_000,
+                15
+        );
+
+        Assertions.assertEquals(-36, account.yearChange());
     }
 
     @Test
