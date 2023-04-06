@@ -99,15 +99,15 @@ public class SavingAccountTest {
     }
 
     @Test
-    public void initialBalanceShouldNotBeZero() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new SavingAccount(
-                    0,
-                    1_000,
-                    10_000,
-                    5
-            );
-        });
+    public void initialBalanceCouldBeZero() {
+        SavingAccount account = new SavingAccount(
+                0,
+                0,
+                10_000,
+                5
+        );
+
+        Assertions.assertEquals(0, account.getBalance());
     }
 
     @Test
@@ -123,15 +123,15 @@ public class SavingAccountTest {
     }
 
     @Test
-    public void minBalanceShouldNotBeZero() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new SavingAccount(
-                    2_000,
-                    0,
-                    10_000,
-                    5
-            );
-        });
+    public void minBalanceCouldBeZero() {
+        SavingAccount account = new SavingAccount(
+                2_000,
+                0,
+                10_000,
+                5
+        );
+
+        Assertions.assertEquals(0, account.getMinBalance());
     }
 
     @Test
@@ -159,11 +159,15 @@ public class SavingAccountTest {
     }
 
     @Test
-    public void rateShouldNotBeZero() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new SavingAccount(balance, minBalance, maxBalance, 0);
+    public void rateCouldBeZero() {
+        SavingAccount account = new SavingAccount(
+                2_000,
+                1_000,
+                10_000,
+                0
+        );
 
-        });
+        Assertions.assertEquals(0, account.getRate());
     }
 
     @Test
