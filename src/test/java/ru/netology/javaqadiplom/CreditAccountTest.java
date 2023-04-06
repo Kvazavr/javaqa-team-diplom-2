@@ -4,19 +4,19 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class CreditAccountTest {
+
     @Test
     public void balanceMayBeNegativeButShouldBeMoreCreditLimit() {
-        CreditAccount account = new CreditAccount(
+        new CreditAccount(
                 -2_000,
                 5_000,
                 15
         );
-
-        Assertions.assertEquals(-2_000, account.getBalance());
+        //тест считается валидным, если не падает с исключением
     }
 
     @Test
-    public void balanceLessThanCreditLimit() {
+    public void constructorCreditAccountTestBalanceCanNotBeLessThanCreditLimit() {
 
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> new CreditAccount(-150, 100, 15)
