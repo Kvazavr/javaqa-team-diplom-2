@@ -4,6 +4,26 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class SavingAccountTest {
+    int balance = 2_000;
+    int minBalance = 1_000;
+    int maxBalance = 10_000;
+    int rate = 5;
+
+    private SavingAccount createSavingAccount() {
+        SavingAccount account = new SavingAccount(balance, minBalance, maxBalance, rate);
+        return account;
+    }
+
+
+    @Test
+    public void shouldCreateSavingAccount() {
+        SavingAccount account = createSavingAccount();
+
+        Assertions.assertEquals(balance, account.getBalance());
+        Assertions.assertEquals(minBalance, account.getMinBalance());
+        Assertions.assertEquals(maxBalance, account.getMaxBalance());
+        Assertions.assertEquals(rate, account.getRate());
+    }
 
     @Test
     public void shouldAddLessThanMaxBalance() {
@@ -14,10 +34,44 @@ public class SavingAccountTest {
                 5
         );
 
-        account.add(3_000);
+        boolean result = account.add(3_000);
 
         Assertions.assertEquals(2_000 + 3_000, account.getBalance());
+        Assertions.assertEquals(true, result);
     }
+
+    @Test
+    public void shouldNotAddMoreThanMaxBalance() {
+        SavingAccount account = createSavingAccount();
+
+        boolean result = account.add(9_000);
+
+        Assertions.assertEquals(balance, account.getBalance());
+        Assertions.assertEquals(false, result);
+    }
+
+    @Test
+    public void amountAddShouldNotBeNegative() {
+        SavingAccount account = createSavingAccount();
+        int amount = -100;
+
+        boolean result = account.add(amount);
+
+        Assertions.assertEquals(balance, account.getBalance());
+        Assertions.assertEquals(false, result);
+    }
+
+    @Test
+    public void amountAddShouldNotBeZero() {
+        SavingAccount account = createSavingAccount();
+        int amount = 0;
+
+        boolean result = account.add(amount);
+
+        Assertions.assertEquals(balance, account.getBalance());
+        Assertions.assertEquals(false, result);
+    }
+
 
     @Test
     public void minBalanceShouldBeLessThanMaxBalance() {
@@ -45,11 +99,35 @@ public class SavingAccountTest {
     }
 
     @Test
+    public void initialBalanceShouldNotBeZero() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(
+                    0,
+                    1_000,
+                    10_000,
+                    5
+            );
+        });
+    }
+
+    @Test
     public void minBalanceShouldNotBeNegative() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             new SavingAccount(
                     2_000,
                     -1_000,
+                    10_000,
+                    5
+            );
+        });
+    }
+
+    @Test
+    public void minBalanceShouldNotBeZero() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(
+                    2_000,
+                    0,
                     10_000,
                     5
             );
@@ -65,6 +143,34 @@ public class SavingAccountTest {
                     -10_000,
                     5
             );
+        });
+    }
+
+    @Test
+    public void maxBalanceShouldNotBeZero() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(
+                    2_000,
+                    1_000,
+                    0,
+                    5
+            );
+        });
+    }
+
+    @Test
+    public void rateShouldNotBeZero() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(balance, minBalance, maxBalance, 0);
+
+        });
+    }
+
+    @Test
+    public void rateShouldNotBeNegative() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new SavingAccount(balance, minBalance, maxBalance, -5);
+
         });
     }
 
@@ -90,6 +196,39 @@ public class SavingAccountTest {
                     5
             );
         });
+    }
+
+    @Test
+    public void shouldSuccessfullyPay() {
+        SavingAccount account = createSavingAccount();
+        int payment = 400;
+
+        boolean result = account.pay(payment);
+
+        Assertions.assertEquals(balance - payment, account.getBalance());
+        Assertions.assertEquals(true, result);
+    }
+
+    @Test
+    public void amountPayShouldNotBeNegative() {
+        SavingAccount account = createSavingAccount();
+        int payment = -100;
+
+        boolean result = account.pay(payment);
+
+        Assertions.assertEquals(balance, account.getBalance());
+        Assertions.assertEquals(false, result);
+    }
+
+    @Test
+    public void amountPayShouldNotBeZero() {
+        SavingAccount account = createSavingAccount();
+        int payment = 0;
+
+        boolean result = account.pay(payment);
+
+        Assertions.assertEquals(balance, account.getBalance());
+        Assertions.assertEquals(false, result);
     }
 
     @Test
