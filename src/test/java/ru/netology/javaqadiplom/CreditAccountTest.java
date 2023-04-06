@@ -6,20 +6,21 @@ import org.junit.jupiter.api.Test;
 public class CreditAccountTest {
 
     @Test
-    public void balanceMayBeNegativeButShouldBeMoreCreditLimit() {
-        new CreditAccount(
-                -2_000,
+    public void balanceDoNotChangeIfNotEnoughMoney() {
+        CreditAccount account = new CreditAccount(
+                0,
                 5_000,
                 15
         );
-        //тест считается валидным, если не падает с исключением
+        ;
+        Assertions.assertFalse(account.pay(6_000));
+        Assertions.assertEquals(0, account.getBalance());
     }
 
     @Test
     public void constructorCreditAccountTestBalanceCanNotBeLessThanCreditLimit() {
-
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> new CreditAccount(-150, 100, 15)
+                () -> new CreditAccount(-1, 100, 15)
         );
     }
 
@@ -78,6 +79,19 @@ public class CreditAccountTest {
         account.pay(6_000);
 
         Assertions.assertEquals(-1_000, account.getBalance());
+    }
+
+    @Test
+    public void balanceStayZeroAfterPay() {
+        CreditAccount account = new CreditAccount(
+                5_000,
+                5_000,
+                15
+        );
+
+        account.pay(5_000);
+
+        Assertions.assertEquals(0, account.getBalance());
     }
 
     @Test
@@ -150,7 +164,6 @@ public class CreditAccountTest {
                 5_000,
                 15
         );
-
         Assertions.assertEquals(-36, account.yearChange());
     }
 
