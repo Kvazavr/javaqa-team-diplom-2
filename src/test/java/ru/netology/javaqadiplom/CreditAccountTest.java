@@ -79,21 +79,20 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(-1_000, account.getBalance());
     }
-
     @Test
-    public void payAmountNegative() {
+    public void amountNegativeInPayMethods() {
         CreditAccount account = new CreditAccount(
                 5_000,
                 5_000,
                 15
         );
 
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> account.pay(-1_000)
-        );
+        account.pay(-1_000);
+
+        Assertions.assertEquals(5_000, account.getBalance());
     }
 
-    @Test
+       @Test
     public void shouldAddToPositiveBalance() {
         CreditAccount account = new CreditAccount(
                 0,
