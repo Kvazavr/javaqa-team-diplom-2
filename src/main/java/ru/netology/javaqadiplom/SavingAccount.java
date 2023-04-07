@@ -54,80 +54,78 @@ public class SavingAccount extends Account {
                                     throw new IllegalArgumentException(
                                             "Начальный баланс не может быть больше максимального баланса, а у вас: " + initialBalance
                                     );
-                }
-                this.balance = initialBalance;
-                this.minBalance = minBalance;
-                this.maxBalance = maxBalance;
-                this.rate = rate;
-            }
+                                }
+                                this.balance = initialBalance;
+                                this.minBalance = minBalance;
+                                this.maxBalance = maxBalance;
+                                this.rate = rate;
+                            }
 
-            /**
-             * Операция оплаты с карты на указанную сумму.
-             * В результате успешного вызова этого метода, баланс должен уменьшиться
-             * на сумму покупки. Если же операция может привести к некорректному
-             * состоянию счёта (например, баланс может уйти в минус), то операция должна
-             * завершиться вернув false и ничего не поменяв на счёте.
-             * @param amount - сумма покупки
-             * @return true если операция прошла успешно, false иначе.
-             */
+                            /**
+                             * Операция оплаты с карты на указанную сумму.
+                             * В результате успешного вызова этого метода, баланс должен уменьшиться
+                             * на сумму покупки. Если же операция может привести к некорректному
+                             * состоянию счёта (например, баланс может уйти в минус), то операция должна
+                             * завершиться вернув false и ничего не поменяв на счёте.
+                             * @param amount - сумма покупки
+                             * @return true если операция прошла успешно, false иначе.
+                             */
 
-            @Override
-            public boolean pay (int amount){
-                if (amount <= 0) {
-                    return false;
-                }
-                balance = balance - amount;
-                if (balance > minBalance) {
-                    return true;
-                } else {
+                            @Override
+                            public boolean pay ( int amount){
+                                if (amount <= 0) {
+                                    return false;
+                                }
+                                balance = balance - amount;
+                                if (balance > minBalance) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }
 
-                }
-                    return false;
-                }
-            }
+                            /**
+                             * Операция пополнения карты на указанную сумму.
+                             * В результате успешного вызова этого метода, баланс должен увеличиться
+                             * на сумму покупки. Если же операция может привести к некорректному
+                             * состоянию счёта, то операция должна
+                             * завершиться вернув false и ничего не поменяв на счёте.
+                             * @param amount - сумма пополнения
+                             * @return true если операция прошла успешно, false иначе.
+                             * @param amount
+                             * @return
+                             */
+                            @Override
+                            public boolean add ( int amount){
+                                if (amount <= 0) {
+                                    return false;
+                                }
+                                if (balance + amount < maxBalance) {
+                                    balance = balance + amount;
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }
 
-            /**
-             * Операция пополнения карты на указанную сумму.
-             * В результате успешного вызова этого метода, баланс должен увеличиться
-             * на сумму покупки. Если же операция может привести к некорректному
-             * состоянию счёта, то операция должна
-             * завершиться вернув false и ничего не поменяв на счёте.
-             * @param amount - сумма пополнения
-             * @return true если операция прошла успешно, false иначе.
-             * @param amount
-             * @return
-             */
-            @Override
-            public boolean add (int amount){
-                if (amount <= 0) {
-                    return false;
-                }
-                if (balance + amount < maxBalance) {
-                    balance = balance + amount;
-                    return true;
-                } else {
-                    return false;
-                }
-            }
+                            /**
+                             * Операция расчёта процентов на остаток счёта при условии, что
+                             * счёт не будет меняться год. Сумма процентов приводится к целому
+                             * числу через отбрасывание дробной части (так и работает целочисленное деление).
+                             * Пример: если на счёте 200 рублей, то при ставке 15% ответ должен быть 30.
+                             * @return
+                             */
 
-            /**
-             * Операция расчёта процентов на остаток счёта при условии, что
-             * счёт не будет меняться год. Сумма процентов приводится к целому
-             * числу через отбрасывание дробной части (так и работает целочисленное деление).
-             * Пример: если на счёте 200 рублей, то при ставке 15% ответ должен быть 30.
-             * @return
-             */
+                            @Override
+                            public int yearChange () {
+                                return balance * rate / 100;
+                            }
 
-            @Override
-            public int yearChange () {
-                return balance * rate/100;
-            }
+                            public int getMinBalance () {
+                                return minBalance;
+                            }
 
-            public int getMinBalance () {
-                return minBalance;
-            }
-
-            public int getMaxBalance () {
-                return maxBalance;
-            }
-        }
+                            public int getMaxBalance () {
+                                return maxBalance;
+                            }
+                        }
