@@ -5,17 +5,6 @@ import org.junit.jupiter.api.Test;
 
 public class CreditAccountTest {
 
-    @Test
-    public void balanceDoNotChangeIfNotEnoughMoney() {
-        CreditAccount account = new CreditAccount(
-                0,
-                5_000,
-                15
-        );
-        ;
-        Assertions.assertFalse(account.pay(6_000));
-        Assertions.assertEquals(0, account.getBalance());
-    }
 
     @Test
     public void constructorCreditAccountTestBalanceCanNotBeLessThanCreditLimit() {
@@ -56,7 +45,7 @@ public class CreditAccountTest {
 
 
     @Test
-    public void balanceDoNotShouldChangeIfTotalLessThanCreditLimit() {
+    public void balanceDoNotChangeIfNotEnoughMoney() {
         CreditAccount account = new CreditAccount(
                 5_000,
                 5_000,
