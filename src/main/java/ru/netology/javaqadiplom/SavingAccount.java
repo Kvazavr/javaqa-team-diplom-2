@@ -33,7 +33,7 @@ public class SavingAccount extends Account {
         }
         if (initialBalance < 0) {
             throw new IllegalArgumentException(
-                    "Начальный баланс не может быть меньше нуля, а у вас: " + initialBalance
+                    "Начальный баланс не может быть меньше нуля, a у вас: " + initialBalance
             );
         }
         if (minBalance < 0) {
