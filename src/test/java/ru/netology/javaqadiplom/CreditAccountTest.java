@@ -5,16 +5,34 @@ import org.junit.jupiter.api.Test;
 
 public class CreditAccountTest {
 
+    int initialBalance = 5_000;
+    int creditLimit = 5_000;
+    int rate = 15;
+
+    private CreditAccount createCreditAccount() {
+        CreditAccount account = new CreditAccount(initialBalance, creditLimit, rate);
+        return account;
+    }
 
     @Test
-    public void constructorCreditAccountTestBalanceCanNotBeLessThanCreditLimit() {
+    public void shouldCreateSavingAccount() {
+        CreditAccount account = createCreditAccount();
+
+        Assertions.assertEquals(initialBalance, account.getBalance());
+        Assertions.assertEquals(creditLimit, account.getCreditLimit());
+        Assertions.assertEquals(rate, account.getRate());
+    }
+
+
+    @Test
+    public void initialBalanceCanNotBeLessThanCreditLimit() {
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> new CreditAccount(-1, 100, 15)
         );
     }
 
     @Test
-    public void constructorCreditAccountTestCreditLimitShouldBePositive() {
+    public void creditLimitShouldBePositive() {
 
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> new CreditAccount(50, -1, 15)
@@ -22,7 +40,7 @@ public class CreditAccountTest {
     }
 
     @Test
-    public void constructorCreditAccountTestRateShouldBePositive() {
+    public void rateShouldBePositive() {
 
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> new CreditAccount(50, 100, -15)
