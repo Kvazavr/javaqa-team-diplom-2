@@ -37,8 +37,8 @@ public class BankTest {
     }
 
     @Test
-    public void transferMoreThanCreditLimit() {
-        Assertions.assertTrue(bank.transfer(from, to, 20));
+    public void transferMoreThanMaxBalance() {
+        Assertions.assertFalse(bank.transfer(to, from, 20));
         Assertions.assertEquals(10, to.getBalance());
         Assertions.assertEquals(25, from.getBalance());
     }
